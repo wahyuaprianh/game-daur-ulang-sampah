@@ -25,7 +25,7 @@
         <div id="ui-layer">
             <div id="score-board">
                 <span class="icon">⭐</span>
-                <span id="score">0</span> / 150
+                <span id="score">0</span> / 500
                 <div id="combo-multiplier" class="hidden">x2</div>
             </div>
             <div id="life-meter">
@@ -34,6 +34,9 @@
                 <span class="heart active">❤️</span>
             </div>
         </div>
+
+        <!-- Tombol Mute / Unmute -->
+        <button id="mute-btn" type="button" aria-label="Matikan suara">🔊</button>
 
         <!-- Game Area -->
         <div id="game-area"></div>
@@ -58,7 +61,7 @@
         <div id="start-screen" class="modal active">
             <div class="modal-content">
                 <h1>Daur Ulang Petualang</h1>
-                <p>Kumpulkan 150 Poin untuk Menang!<br>Tarik sampah ke tempat yang benar.</p>
+                <p>Kumpulkan 500 Poin untuk Menang!<br>Tarik sampah ke tempat yang benar.</p>
                 <button id="start-btn" class="btn-primary">MULAI PETUALANGAN!</button>
             </div>
         </div>
@@ -82,7 +85,7 @@
             <div class="modal-content">
                 <div class="modal-badge">🌟</div>
                 <h2>KAMU MENANG!</h2>
-                <p>Skor Akhir: <span id="win-score" class="highlight-score">150</span></p>
+                <p>Skor Akhir: <span id="win-score" class="highlight-score">500</span></p>
                 <div class="fun-fact-box">
                     <h3>💡 Fun Fact:</h3>
                     <p id="win-fact-text">Fakta menarik akan muncul di sini.</p>

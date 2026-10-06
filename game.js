@@ -40,13 +40,45 @@ const triviaQuestions = [
     { question: "Apakah kaleng minuman aluminium bisa didaur ulang?", answer: true }
 ];
 
-const WIN_TARGET = 150;
+const WIN_TARGET = 500;
+
+// --- Background Music & Mute ---
+const BGM_VOLUME = 0.4;
+const BGM_VOLUME_TRIVIA = 0.15;
+
+const bgm = new Audio('assets/bgm.mp3');
+bgm.loop = true;
+bgm.volume = BGM_VOLUME;
+bgm.preload = 'auto';
+
+let isMuted = false;
+let gameActive = false; // true selama permainan berlangsung (belum menang / kalah)
+
+// Ingat pilihan mute pemain
+try {
+    isMuted = localStorage.getItem('daur-ulang-muted') === '1';
+} catch (e) { /* abaikan jika storage tidak tersedia */ }
+bgm.muted = isMuted;
+
+function playBGM()  { bgm.play().catch(() => {}); }
+function pauseBGM() { bgm.pause(); }
+function restartBGM() { bgm.currentTime = 0; playBGM(); }
+
+// Musik berhenti saat tab disembunyikan, lanjut saat kembali
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        pauseBGM();
+    } else if (gameActive) {
+        playBGM();
+    }
+});
 
 // Audio Context Generation (Simple synthesizers for SFX)
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
 function playSound(type) {
+    if (isMuted) return;
     if(audioCtx.state === 'suspended') audioCtx.resume();
     const osc = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
@@ -110,6 +142,7 @@ const scoreEl = document.getElementById('score');
 const comboEl = document.getElementById('combo-multiplier');
 const hearts = document.querySelectorAll('.heart');
 const bins = document.querySelectorAll('.bin');
+const muteBtn = document.getElementById('mute-btn');
 
 // Modals
 const startScreen = document.getElementById('start-screen');
@@ -130,6 +163,34 @@ document.getElementById('win-restart-btn').addEventListener('click', startGame);
 document.getElementById('btn-yes').addEventListener('click', () => answerTrivia(true));
 document.getElementById('btn-no').addEventListener('click', () => answerTrivia(false));
 
+// Mute / Unmute
+function updateMuteButton() {
+    muteBtn.innerText = isMuted ? '🔇' : '🔊';
+    muteBtn.classList.toggle('muted', isMuted);
+    muteBtn.setAttribute('aria-label', isMuted ? 'Nyalakan suara' : 'Matikan suara');
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    bgm.muted = isMuted;
+    try {
+        localStorage.setItem('daur-ulang-muted', isMuted ? '1' : '0');
+    } catch (e) { /* abaikan */ }
+    updateMuteButton();
+
+    // Jika suara dinyalakan saat permainan berjalan, pastikan musik ikut jalan
+    if (!isMuted && gameActive && bgm.paused) playBGM();
+}
+
+muteBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMute();
+});
+// Cegah tombol mute memicu drag item
+muteBtn.addEventListener('mousedown', (e) => e.stopPropagation());
+muteBtn.addEventListener('touchstart', (e) => e.stopPropagation(), {passive: true});
+updateMuteButton();
+
 // Bin Click Support
 bins.forEach(bin => {
     bin.addEventListener('click', (e) => {
@@ -147,6 +208,9 @@ document.addEventListener('touchend', onDragEnd);
 
 function startGame() {
     playSound('pop');
+    gameActive = true;
+    bgm.volume = BGM_VOLUME;
+    restartBGM();
     score = 0;
     lives = 3;
     streak = 0;
@@ -359,6 +423,8 @@ function loseLife() {
 function checkWinState() {
     if (score >= WIN_TARGET) {
         isPaused = true;
+        gameActive = false;
+        pauseBGM();
         playSound('win');
         winScoreEl.innerText = score;
         
@@ -386,6 +452,7 @@ function handleGameOverSequence() {
 function showTrivia() {
     playSound('pop');
     hasUsedRevive = true;
+    bgm.volume = BGM_VOLUME_TRIVIA; // kecilkan musik agar fokus ke pertanyaan
     currentTrivia = triviaQuestions[Math.floor(Math.random() * triviaQuestions.length)];
     triviaText.innerText = currentTrivia.question;
     triviaModal.classList.add('active');
@@ -393,6 +460,7 @@ function showTrivia() {
 
 function answerTrivia(playerAnswer) {
     triviaModal.classList.remove('active');
+    bgm.volume = BGM_VOLUME;
     
     if (playerAnswer === currentTrivia.answer) {
         // Correct - Revive
@@ -411,6 +479,8 @@ function answerTrivia(playerAnswer) {
 
 function endGame() {
     isPaused = true;
+    gameActive = false;
+    pauseBGM();
     finalScoreEl.innerText = score;
     gameOverScreen.classList.add('active');
 }
@@ -532,4 +602,3 @@ function stopWeather() {
     gameContainer.classList.remove('weather-overcast');
     gameContainer.classList.remove('weather-winter');
 }
-
