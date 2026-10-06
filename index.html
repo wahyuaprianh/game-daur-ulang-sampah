@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daur Ulang Petualang</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♻️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container" class="morning">
+        <!-- Background Scenery -->
+        <div class="scenery">
+            <div class="cloud cloud-1">☁️</div>
+            <div class="cloud cloud-2">☁️</div>
+            <div class="cloud cloud-3">☁️</div>
+            <div class="ground">
+                <div class="bush bush-1">🌲</div>
+                <div class="bush bush-2">🌳</div>
+            </div>
+        </div>
+
+        <!-- UI Overlay -->
+        <div id="ui-layer">
+            <div id="score-board">
+                <span class="icon">⭐</span>
+                <span id="score">0</span> / 150
+                <div id="combo-multiplier" class="hidden">x2</div>
+            </div>
+            <div id="life-meter">
+                <span class="heart active">❤️</span>
+                <span class="heart active">❤️</span>
+                <span class="heart active">❤️</span>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div id="game-area"></div>
+
+        <!-- Bins -->
+        <div id="bins-container">
+            <div class="bin" id="bin-organic" data-type="organic">
+                <div class="bin-icon">🍎</div>
+                <div class="bin-label">Organik</div>
+            </div>
+            <div class="bin" id="bin-anorganic" data-type="anorganic">
+                <div class="bin-icon">🧴</div>
+                <div class="bin-label">Anorganik</div>
+            </div>
+            <div class="bin" id="bin-b3" data-type="b3">
+                <div class="bin-icon">🔋</div>
+                <div class="bin-label">B3</div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="modal active">
+            <div class="modal-content">
+                <h1>Daur Ulang Petualang</h1>
+                <p>Kumpulkan 150 Poin untuk Menang!<br>Tarik sampah ke tempat yang benar.</p>
+                <button id="start-btn" class="btn-primary">MULAI PETUALANGAN!</button>
+            </div>
+        </div>
+
+        <!-- Trivia Modal (When lives = 0) -->
+        <div id="trivia-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-badge">❓</div>
+                <h2>Kesempatan Terakhir!</h2>
+                <p>Jawab pertanyaan ini untuk mendapatkan 1 nyawa kembali:</p>
+                <p id="trivia-text" class="question-text">Paus adalah ikan, bukan mamalia.</p>
+                <div class="trivia-buttons">
+                    <button id="btn-yes" class="btn-primary btn-yes">YA</button>
+                    <button id="btn-no" class="btn-primary btn-no">TIDAK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Win Screen (Contains Fun Fact) -->
+        <div id="win-screen" class="modal">
+            <div class="modal-content">
+                <div class="modal-badge">🌟</div>
+                <h2>KAMU MENANG!</h2>
+                <p>Skor Akhir: <span id="win-score" class="highlight-score">150</span></p>
+                <div class="fun-fact-box">
+                    <h3>💡 Fun Fact:</h3>
+                    <p id="win-fact-text">Fakta menarik akan muncul di sini.</p>
+                </div>
+                <button id="win-restart-btn" class="btn-primary">MAIN LAGI</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen (If trivia is wrong) -->
+        <div id="game-over-screen" class="modal">
+            <div class="modal-content">
+                <div class="modal-badge">💥</div>
+                <h2>Permainan Selesai!</h2>
+                <p>Skor Akhir Kamu: <span id="final-score" class="highlight-score">0</span></p>
+                <button id="restart-btn" class="btn-primary">COBA LAGI</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

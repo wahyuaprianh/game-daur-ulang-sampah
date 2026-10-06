@@ -1,0 +1,346 @@
+:root {
+    --canvas-base: #FFFDF5;
+    --text-primary: #37474F;
+    --organik-base: #4CAF50;
+    --organik-border: #2E7D32;
+    --organik-bg: #E8F5E9;
+    --anorganik-base: #29B6F6;
+    --anorganik-border: #0288D1;
+    --anorganik-bg: #E1F5FE;
+    --b3-base: #FF5252;
+    --b3-border: #D32F2F;
+    --b3-bg: #FFEBEE;
+    --koin: #FFD54F;
+    --koin-border: #FFA000;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--canvas-base);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Game Container - Responsive scaling */
+#game-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 100vh;
+    max-height: 900px;
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 70%);
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scenery layer */
+.scenery {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+.cloud { position: absolute; font-size: 60px; opacity: 0.8; animation: floatCloud 20s linear infinite; }
+.cloud-1 { top: 10%; left: -100px; animation-duration: 25s; }
+.cloud-2 { top: 25%; left: -150px; animation-duration: 35s; font-size: 80px; }
+.cloud-3 { top: 5%; left: -80px; animation-duration: 18s; font-size: 50px; }
+@keyframes floatCloud { from { transform: translateX(-100px); } to { transform: translateX(1200px); } }
+.ground { position: absolute; bottom: 0; left: -5%; right: -5%; height: 160px; background: #8BC34A; border-top: 15px solid #7CB342; border-radius: 50% 50% 0 0 / 40px 40px 0 0; }
+.bush { position: absolute; font-size: 64px; bottom: 120px; }
+.bush-1 { left: 10%; }
+.bush-2 { right: 15%; font-size: 80px; }
+
+/* UI Layer */
+#ui-layer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    pointer-events: none;
+}
+#score-board, #life-meter {
+    background: #FFF9E6;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 6px 0px #E5DFD0;
+    pointer-events: auto;
+}
+#score-board {
+    border: 3px solid var(--koin-border);
+    font-size: 24px;
+    font-weight: 800;
+    position: relative;
+}
+#combo-multiplier {
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    background: #FF7043;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #FFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: rotate(-10deg) scale(0);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#combo-multiplier.active { transform: rotate(-10deg) scale(1); animation: pulseCombo 0.5s infinite alternate; }
+@keyframes pulseCombo { from { transform: rotate(-10deg) scale(1); } to { transform: rotate(-10deg) scale(1.1); } }
+#life-meter { border: 3px solid #E0DACB; font-size: 24px; }
+.heart { filter: grayscale(100%); opacity: 0.3; transition: all 0.3s; }
+.heart.active { filter: none; opacity: 1; transform: scale(1.1); }
+
+/* Game Area */
+#game-area { flex-grow: 1; position: relative; z-index: 5; }
+.falling-item {
+    position: absolute;
+    left: 50%;
+    margin-left: -50px; /* Centered based on new width */
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: grab;
+    z-index: 20;
+    animation: wobble 3s ease-in-out infinite;
+    touch-action: none;
+}
+.falling-item:active { cursor: grabbing; }
+
+.item-icon {
+    font-size: 72px;
+    filter: drop-shadow(0 10px 5px rgba(0,0,0,0.2));
+}
+
+.item-name {
+    font-size: 14px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: #37474F;
+    margin-top: -15px;
+    white-space: nowrap;
+    border: 2px solid #E0DACB;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+    pointer-events: none;
+}
+
+@keyframes wobble { 0% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 100% { transform: rotate(-10deg); } }
+
+/* Bins */
+#bins-container {
+    display: flex; justify-content: center; gap: 15px; padding: 20px; z-index: 15; background: transparent; padding-bottom: 30px;
+}
+.bin {
+    width: 30%; max-width: 180px; padding: 20px 10px; border-radius: 32px 32px 24px 24px; text-align: center; cursor: pointer;
+    transition: transform 0.15s, border-width 0.15s, background-color 0.2s; background-color: #FFF; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.bin.drag-over { transform: scale(1.05) translateY(-5px); border-style: dashed !important; }
+.bin:active { transform: translateY(4px) scale(0.95); }
+.bin-icon { font-size: 56px; margin-bottom: 8px; filter: drop-shadow(0 4px 2px rgba(0,0,0,0.1)); }
+.bin-label { font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+#bin-organic { border: 4px solid var(--organik-border); border-bottom-width: 10px; background-color: var(--organik-bg); color: var(--organik-border); }
+#bin-organic:active { border-bottom-width: 5px; }
+#bin-anorganic { border: 4px solid var(--anorganik-border); border-bottom-width: 10px; background-color: var(--anorganik-bg); color: var(--anorganik-border); }
+#bin-anorganic:active { border-bottom-width: 5px; }
+#bin-b3 { border: 4px solid var(--b3-border); border-bottom-width: 10px; background-color: var(--b3-bg); color: var(--b3-border); }
+#bin-b3:active { border-bottom-width: 5px; }
+
+/* Modals */
+.modal {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(55, 71, 79, 0.7); backdrop-filter: blur(4px);
+    display: flex; justify-content: center; align-items: center; z-index: 100; visibility: hidden; opacity: 0; transition: opacity 0.3s;
+}
+.modal.active { visibility: visible; opacity: 1; }
+.modal-content {
+    background: #FFF; padding: 50px 40px 40px; border-radius: 32px; text-align: center; max-width: 90%; width: 450px;
+    border: 6px solid var(--organik-base); box-shadow: 0 12px 0px rgba(0,0,0,0.2); position: relative;
+    transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal.active .modal-content { transform: scale(1); }
+.modal-badge {
+    position: absolute; top: -40px; left: 50%; transform: translateX(-50%); font-size: 64px; background: #FFF;
+    border-radius: 50%; width: 90px; height: 90px; display: flex; justify-content: center; align-items: center;
+    border: 6px solid var(--organik-base); box-shadow: 0 6px 0px rgba(0,0,0,0.1);
+}
+.modal-content h1, .modal-content h2 { font-size: 32px; margin-bottom: 20px; color: var(--organik-border); }
+.modal-content p { font-size: 20px; margin-bottom: 30px; font-weight: 600; color: #546E7A; }
+.highlight-score { color: var(--organik-border); font-size: 40px; font-weight: 800; display: block; margin-top: 10px; }
+
+/* Win Screen Fun Fact Box */
+.fun-fact-box {
+    background: #FFF9E6; border: 3px dashed var(--koin-border); border-radius: 16px; padding: 20px; margin-bottom: 30px; text-align: left;
+}
+.fun-fact-box h3 { color: #FFA000; font-size: 20px; margin-bottom: 10px; }
+.fun-fact-box p { font-size: 18px; margin-bottom: 0; color: #37474F; line-height: 1.4; }
+
+/* Trivia Questions */
+.question-text { font-size: 22px !important; color: #00658d !important; font-weight: 800 !important; background: #E1F5FE; padding: 20px; border-radius: 16px; }
+.trivia-buttons { display: flex; gap: 15px; margin-bottom: 20px; }
+.btn-yes { background-color: var(--organik-base); border-bottom-color: var(--organik-border); }
+.btn-no { background-color: var(--b3-base); border-bottom-color: var(--b3-border); }
+
+.btn-primary {
+    background-color: var(--organik-base); color: #FFF; border: none; border-bottom: 8px solid var(--organik-border);
+    padding: 16px 32px; font-size: 22px; font-weight: 800; border-radius: 9999px; cursor: pointer;
+    transition: transform 0.1s, border-width 0.1s; width: 100%;
+}
+.btn-primary:active { transform: translateY(4px); border-bottom-width: 4px; }
+
+/* Special Effects */
+.shake { animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes screenShake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+    40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+.floating-text {
+    position: absolute; color: var(--organik-border); font-size: 32px; font-weight: 900;
+    text-shadow: 2px 2px 0px #FFF, -2px -2px 0px #FFF, 2px -2px 0px #FFF, -2px 2px 0px #FFF;
+    z-index: 100; pointer-events: none; animation: floatUp 1s ease-out forwards;
+}
+@keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100px) scale(1.5); opacity: 0; } }
+.particle { position: absolute; width: 15px; height: 15px; background-color: var(--koin); border-radius: 50%; pointer-events: none; z-index: 99; }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .bin-label { font-size: 14px; } .bin-icon { font-size: 42px; }
+    #score-board, #life-meter { padding: 8px 12px; font-size: 18px; }
+    .falling-item { font-size: 60px; }
+}
+@media (max-height: 600px) and (orientation: landscape) {
+    .ground { height: 100px; border-top-width: 8px; }
+    .bush { bottom: 80px; font-size: 40px; }
+    #bins-container { padding: 10px; gap: 10px; padding-bottom: 10px; }
+    .bin { padding: 10px; border-width: 3px !important; border-bottom-width: 6px !important; }
+    .bin-icon { font-size: 32px; margin-bottom: 4px; }
+    .bin-label { font-size: 12px; }
+    .falling-item { font-size: 50px; }
+    #ui-layer { padding: 10px; }
+    .modal-content { padding: 30px 20px 20px; }
+    .modal-badge { width: 60px; height: 60px; font-size: 40px; top: -30px; border-width: 4px; }
+    .modal-content h1, .modal-content h2 { font-size: 24px; margin-bottom: 10px; }
+    .btn-primary { padding: 10px 20px; font-size: 18px; }
+    .fun-fact-box p, .question-text { font-size: 16px !important; }
+}
+
+/* Time of Day & Weather Transitions */
+#game-container {
+    transition: background 3s ease;
+}
+
+#game-container.morning { background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 70%); }
+#game-container.afternoon { background: linear-gradient(180deg, #29B6F6 0%, #B3E5FC 70%); }
+#game-container.evening { background: linear-gradient(180deg, #FF8A65 0%, #FFE0B2 70%); }
+#game-container.evening .cloud { filter: brightness(0.8) sepia(0.5) hue-rotate(-20deg); transition: filter 3s; }
+#game-container.evening .ground { filter: brightness(0.8) sepia(0.2); transition: filter 3s; }
+
+#game-container.night { background: linear-gradient(180deg, #1A237E 0%, #283593 70%); }
+#game-container.night .cloud { filter: brightness(0.3) contrast(1.2); transition: filter 3s; }
+#game-container.night .ground { filter: brightness(0.4); transition: filter 3s; }
+#game-container.night .bush { filter: brightness(0.3); transition: filter 3s; }
+
+/* Weather Particles */
+.particle-weather {
+    position: absolute;
+    pointer-events: none;
+    z-index: 12;
+}
+
+/* Rain */
+.weather-rain {
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.8));
+    width: 2px;
+    height: 40px;
+    border-radius: 2px;
+}
+@keyframes fallRain {
+    0% { transform: translate(0, -50px) rotate(15deg); opacity: 1; }
+    100% { transform: translate(-100px, 120vh) rotate(15deg); opacity: 0; }
+}
+
+/* Snow */
+.weather-snow {
+    background: #FFF;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(255,255,255,0.8);
+}
+@keyframes fallSnow {
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 120%; opacity: 0; }
+}
+@keyframes swaySnow {
+    0% { transform: translateX(-30px); }
+    100% { transform: translateX(30px); }
+}
+
+/* Autumn / Leaves */
+.weather-leaf {
+    font-size: 20px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+}
+@keyframes fallLeaf {
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 120%; opacity: 0; }
+}
+@keyframes swayLeaf {
+    0% { transform: translateX(-40px) rotate(-45deg); }
+    100% { transform: translateX(40px) rotate(45deg); }
+}
+
+/* Weather Overrides for Backgrounds */
+#game-container.weather-overcast {
+    background: linear-gradient(180deg, #546E7A 0%, #90A4AE 70%) !important;
+}
+#game-container.weather-overcast .cloud {
+    filter: brightness(0.5) contrast(0.8) !important;
+}
+#game-container.weather-overcast .ground {
+    filter: brightness(0.7) !important;
+}
+
+#game-container.weather-winter {
+    background: linear-gradient(180deg, #90A4AE 0%, #CFD8DC 70%) !important;
+}
+#game-container.weather-winter .ground {
+    filter: grayscale(60%) brightness(1.3) !important; /* Frosty ground */
+}
+
+/* Make particles fade smoothly */
+.particle-weather {
+    position: absolute;
+    pointer-events: none;
+    z-index: 12;
+    transition: opacity 3s ease-in-out;
+}
+.particle-weather.fade-out {
+    opacity: 0 !important;
+}
