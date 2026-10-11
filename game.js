@@ -15,13 +15,19 @@ const itemsData = [
     { type: 'organic', icon: '🥀', name: 'Bunga Layu' },
     { type: 'organic', icon: '🌿', name: 'Rumput' },
     { type: 'organic', icon: '🪚', name: 'Serbuk Kayu' },
+    { type: 'organic', icon: '🍉', name: 'Kulit Semangka' },
+    { type: 'organic', icon: '🌽', name: 'Tongkol Jagung' },
+    { type: 'organic', icon: '🥜', name: 'Kulit Kacang' },
+    { type: 'organic', icon: '🥥', name: 'Sabut Kelapa' },
+    { type: 'organic', icon: '🍞', name: 'Roti Basi' },
+    { type: 'organic', icon: '🐟', name: 'Duri Ikan' },
+    { type: 'organic', icon: '🍊', name: 'Kulit Jeruk' },
 
     // ===== NON-ORGANIK (15 item) =====
     { type: 'anorganic', icon: '🛍️', name: 'Plastik' },
     { type: 'anorganic', icon: '🥫', name: 'Kaleng' },
     { type: 'anorganic', icon: '🪟', name: 'Kaca' },
-    { type: 'anorganic', icon: '📦', name: 'Styrofoam' },
-    { type: 'anorganic', icon: '🩹', name: 'Karet' },
+    { type: 'anorganic', icon: '🧤', name: 'Sarung Tangan' },
     { type: 'anorganic', icon: '🧴', name: 'Botol Plastik' },
     { type: 'anorganic', icon: '🥤', name: 'Sedotan Plastik' },
     { type: 'anorganic', icon: '📦', name: 'Kardus' },
@@ -31,7 +37,12 @@ const itemsData = [
     { type: 'anorganic', icon: '🍬', name: 'Bungkus Permen' },
     { type: 'anorganic', icon: '🧃', name: 'Sachet Minuman' },
     { type: 'anorganic', icon: '🍶', name: 'Botol Kaca' },
-    { type: 'anorganic', icon: '🔩', name: 'Tutup Botol' },
+    { type: 'anorganic', icon: '🗞️', name: 'Koran' },
+    { type: 'anorganic', icon: '🪥', name: 'Sikat Gigi' },
+    { type: 'anorganic', icon: '🎈', name: 'Balon' },
+    { type: 'anorganic', icon: '👟', name: 'Sepatu Bekas' },
+    { type: 'anorganic', icon: '🧸', name: 'Mainan Rusak' },
+    { type: 'anorganic', icon: '🪣', name: 'Ember Plastik' },
 
     // ===== B3 - Bahan Berbahaya dan Beracun (14 item) =====
     { type: 'b3', icon: '🔋', name: 'Baterai' },
@@ -42,12 +53,13 @@ const itemsData = [
     { type: 'b3', icon: '🧪', name: 'Pestisida' },
     { type: 'b3', icon: '🎨', name: 'Cat' },
     { type: 'b3', icon: '🖨️', name: 'Tinta Printer' },
-    { type: 'b3', icon: '🧹', name: 'Cairan Pembersih' },
-    { type: 'b3', icon: '🔌', name: 'Aki' },
+    { type: 'b3', icon: '🧼', name: 'Cairan Pembersih' },
     { type: 'b3', icon: '🧯', name: 'Aerosol/Spray' },
-    { type: 'b3', icon: '🧴', name: 'Pemutih' },
-    { type: 'b3', icon: '🧫', name: 'Disinfektan' },
-    { type: 'b3', icon: '🪤', name: 'Lem' }
+    { type: 'b3', icon: '🌡️', name: 'Termometer Raksa' },
+    { type: 'b3', icon: '💉', name: 'Jarum Suntik' },
+    { type: 'b3', icon: '😷', name: 'Masker Bekas' },
+    { type: 'b3', icon: '📱', name: 'HP Rusak' },
+    { type: 'b3', icon: '🔌', name: 'Charger Rusak' }
 ];
 
 const facts = [
