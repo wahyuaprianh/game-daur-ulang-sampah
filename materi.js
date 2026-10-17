@@ -56,7 +56,7 @@
       title: "Sampah Organik",
       lead: "Berasal dari makhluk hidup dan <b>mudah membusuk</b>. Bisa hancur dalam beberapa hari sampai beberapa bulan.",
       tiles: [["🍌", "Kulit pisang"], ["🍚", "Sisa nasi"], ["🥬", "Sisa sayur"], ["🍂", "Daun kering"], ["🐟", "Tulang ikan"]],
-      tip: "💡 Bisa dijadikan <b>kompos</b> untuk menyuburkan tanaman. Tongnya berwarna <b>hijau</b>."
+      tip: "💡 Bisa dijadikan <b>kompos</b> untuk menyuburkan tanaman. Tempat Sampahnya berwarna <b>hijau</b>."
     },
     {
       p: "anorganik",
@@ -64,7 +64,7 @@
       title: "Sampah Anorganik",
       lead: "Dibuat di pabrik dan <b>sulit membusuk</b>. Butuh puluhan sampai ratusan tahun untuk hilang dari alam.",
       tiles: [["🧴", "Botol plastik"], ["🥫", "Kaleng"], ["📰", "Koran"], ["🍾", "Botol kaca"], ["🛍️", "Kantong plastik"]],
-      tip: "💡 Pilah lalu <b>daur ulang</b> atau pakai lagi. Tongnya berwarna <b>kuning</b>."
+      tip: "💡 Pilah lalu <b>daur ulang</b> atau pakai lagi. Tempat sampahnya berwarna <b>kuning</b>."
     },
     {
       p: "b3",
@@ -72,7 +72,7 @@
       title: "Sampah B3",
       lead: "<b>B3</b> artinya <b>B</b>ahan <b>B</b>erbahaya dan <b>B</b>eracun. Bisa mencemari tanah dan air, juga berbahaya bagi tubuh.",
       tiles: [["🔋", "Baterai"], ["💡", "Lampu"], ["💊", "Obat kedaluwarsa"], ["🎨", "Cat"], ["📱", "Elektronik rusak"]],
-      tip: "💡 Jangan dicampur sampah lain dan minta tolong orang dewasa. Tongnya berwarna <b>merah</b>."
+      tip: "💡 Jangan dicampur sampah lain dan minta tolong orang dewasa. Tempat sampahnya berwarna <b>merah</b>."
     },
     {
       p: "siap",
