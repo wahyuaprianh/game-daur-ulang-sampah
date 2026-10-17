@@ -56,7 +56,7 @@
       title: "Sampah Organik",
       lead: "Berasal dari makhluk hidup dan <b>mudah membusuk</b>. Bisa hancur dalam beberapa hari sampai beberapa bulan.",
       tiles: [["🍌", "Kulit pisang"], ["🍚", "Sisa nasi"], ["🥬", "Sisa sayur"], ["🍂", "Daun kering"], ["🐟", "Tulang ikan"]],
-      tip: "💡 Bisa dijadikan <b>kompos</b> untuk menyuburkan tanaman. Tempat Sampahnya berwarna <b>hijau</b>."
+      tip: "💡 Bisa dijadikan <b>kompos</b> untuk menyuburkan tanaman. Tempat sampahnya berwarna <b>hijau</b>."
     },
     {
       p: "anorganik",
