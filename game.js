@@ -233,6 +233,11 @@ document.getElementById('restart-btn').addEventListener('click', startGame);
 document.getElementById('win-restart-btn').addEventListener('click', startGame);
 document.getElementById('btn-yes').addEventListener('click', () => answerTrivia(true));
 document.getElementById('btn-no').addEventListener('click', () => answerTrivia(false));
+document.getElementById('belajar-lagi-btn').addEventListener('click', () => {
+    playSound('pop');
+    stopResultSfx(); // hentikan suara kalah supaya tidak tumpang tindih
+    if (typeof bukaMateri === 'function') bukaMateri();
+});
 
 // Mute / Unmute
 function updateMuteButton() {

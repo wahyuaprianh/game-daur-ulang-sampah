@@ -66,12 +66,13 @@
             </div>
         </div>
 
-        <!-- Start Screen -->
         <div id="start-screen" class="modal active">
             <div class="modal-content">
                 <h1>Daur Ulang Petualang</h1>
                 <p>Kumpulkan 150 Poin untuk Menang!<br>Tarik sampah ke tempat yang benar.</p>
-                <button id="start-btn" class="btn-primary">MULAI PETUALANGAN!</button>
+                <button id="materi-btn" class="btn-primary" onclick="bukaMateri()">📖 Belajar Dulu</button>
+                <button id="start-btn" class="btn-primary btn-locked" disabled>🔒 MULAI PETUALANGAN</button>
+                <p id="lock-hint" class="hint-text">Selesaikan materi dulu untuk membuka</p>
             </div>
         </div>
 
@@ -110,10 +111,13 @@
                 <h2>Permainan Selesai!</h2>
                 <p>Skor Akhir Kamu: <span id="final-score" class="highlight-score">0</span></p>
                 <button id="restart-btn" class="btn-primary">COBA LAGI</button>
+                <button id="belajar-lagi-btn" class="btn-primary btn-secondary" type="button">📖 Belajar Lagi
+                    Yuk</button>
             </div>
         </div>
     </div>
 
+    <script src="materi.js"></script>
     <script src="game.js"></script>
 </body>
 

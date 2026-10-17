@@ -562,6 +562,47 @@ body {
     border-bottom-width: 4px;
 }
 
+/* Tombol kedua (kuning ceria), mis. "Belajar Lagi Yuk" di layar kalah */
+.btn-secondary {
+    background-color: var(--koin);
+    border-bottom-color: var(--koin-border);
+    color: var(--text-primary);
+    margin-top: 16px;
+}
+
+/* Tombol "BELAJAR DULU": oranye */
+#materi-btn {
+    background-color: #FF7043;
+    border-bottom-color: #E64A19;
+    color: #fff;
+}
+
+/* Tombol "MULAI PETUALANGAN": hijau (bawaan .btn-primary).
+   Saat masih terkunci dibuat agak pudar supaya anak tahu belum bisa ditekan. */
+.btn-locked {
+    opacity: 0.55;
+    cursor: not-allowed !important;
+}
+
+.btn-locked:active {
+    transform: none !important;
+    border-bottom-width: 8px !important;
+}
+
+/* Jarak tombol mulai di layar awal: tetap sama saat terkunci maupun terbuka */
+#start-btn {
+    margin-top: 16px;
+}
+
+.hint-text {
+    font-size: clamp(12px, 2.8vw, 14px) !important;
+    color: #90A4AE !important;
+    margin-bottom: 0 !important;
+    margin-top: 12px !important;
+    font-weight: 600;
+    font-style: italic;
+}
+
 /* Special Effects */
 .shake {
     animation: screenShake 0.4s cubic-bezier(.36, .07, .19, .97) both;
@@ -735,6 +776,15 @@ body {
         padding: 8px 20px;
         font-size: 17px;
         min-height: 44px;
+    }
+
+    #start-btn,
+    .btn-secondary {
+        margin-top: 10px;
+    }
+
+    .hint-text {
+        margin-top: 8px !important;
     }
 
     .fun-fact-box {
